@@ -13,10 +13,10 @@ class login extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.start,
             // crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -48,7 +48,7 @@ class login extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Column(
@@ -59,26 +59,26 @@ class login extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.grey.shade800, fontSize: 18),
                   ),
-                  SizedBox(height: 50,),
+                  const SizedBox(height: 50,),
                   Padding(
                     padding: const EdgeInsets.only(right: 20,left: 20),
                     child: TextFormField(
                         maxLines: 1,
                         decoration: InputDecoration(
                           hintText: "Enter the Email",
-                          prefixIcon: Icon(Icons.alternate_email_sharp),
+                          prefixIcon: const Icon(Icons.alternate_email_sharp),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black26),
+                            borderSide: const BorderSide(color: Colors.black26),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black26),
+                            borderSide: const BorderSide(color: Colors.black26),
                             borderRadius: BorderRadius.circular(40),
                           ),
                         ),
                        ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Padding(
@@ -87,19 +87,19 @@ class login extends StatelessWidget {
                         maxLines: 1,
                         decoration: InputDecoration(
                           hintText: "Enter the Password",
-                          prefixIcon: Icon(Icons.lock),
+                          prefixIcon: const Icon(Icons.lock),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black26),
+                            borderSide: const BorderSide(color: Colors.black26),
                             borderRadius: BorderRadius.circular(40),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black26),
+                            borderSide: const BorderSide(color: Colors.black26),
                             borderRadius: BorderRadius.circular(40),
                           ),
                         ),
                        ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 200,
                   ),
                   Container(
@@ -108,7 +108,7 @@ class login extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.deepOrange,
                         borderRadius: BorderRadius.circular(20)),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "LOGIN",
                         style: TextStyle(
@@ -118,7 +118,7 @@ class login extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -130,10 +130,10 @@ class login extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.grey.shade800, fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 7,
                       ),
-                      Text(
+                      const Text(
                         "Sign Up",
                         style: TextStyle(
                             color: Colors.deepOrange,
