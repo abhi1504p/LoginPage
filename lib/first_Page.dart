@@ -1,7 +1,69 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:loginpage/SingnUpPage.dart';
+import 'package:loginpage/home.dart';
 
-class login extends StatelessWidget {
+class login extends StatefulWidget {
   login({super.key});
+
+  @override
+  State<login> createState() => _loginState();
+}
+
+class _loginState extends State<login> {
+  String name = "", email = "", password = "";
+  TextEditingController namecontroller = new TextEditingController();
+  TextEditingController emailcontroller = new TextEditingController();
+  TextEditingController passwordcontroller = new TextEditingController();
+  final _formkey = GlobalKey<FormState>();
+  bool _isHidden = true;
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
+  }
+  registration() async {
+    if (password != null &&
+        namecontroller.text != "" &&
+        emailcontroller.text != "") {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+          "Registration Successfully",
+          style: TextStyle(
+              fontSize: 30, color: Colors.red, fontWeight: FontWeight.bold),
+        )));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const Home()));
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "weak password") {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: Colors.deepOrange,
+              content: Text(
+                "Password provided is too weak",
+                style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold),
+              )));
+        } else if (e.code == "Email is already in use ") {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: Colors.deepOrange,
+              content: Text(
+                "Already existing",
+                style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold),
+              )));
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +121,53 @@ class login extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.grey.shade800, fontSize: 18),
                   ),
-                  const SizedBox(height: 50,),
+                  const SizedBox(
+                    height: 50,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 20,left: 20),
+                    padding: const EdgeInsets.only(right: 20, left: 20),
                     child: TextFormField(
+                      obscureText: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Pls Enter the Name ";
+                        }
+                        return null;
+                      },
+                      controller: namecontroller,
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: "Enter the Name",
+                        prefixIcon:
+                            const Icon(Icons.drive_file_rename_outline_sharp),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black26),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black26),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20, left: 20),
+                    child: Form(
+                      key: _formkey,
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        obscureText: false,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Pls Enter the Email ";
+                          }
+                          return null;
+                        },
+                        controller: emailcontroller,
                         maxLines: 1,
                         decoration: InputDecoration(
                           hintText: "Enter the Email",
@@ -76,45 +181,89 @@ class login extends StatelessWidget {
                             borderRadius: BorderRadius.circular(40),
                           ),
                         ),
-                       ),
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20),
+                    padding: const EdgeInsets.only(left: 20, right: 20),
                     child: TextFormField(
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          hintText: "Enter the Password",
-                          prefixIcon: const Icon(Icons.lock),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black26),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black26),
-                            borderRadius: BorderRadius.circular(40),
+                      obscureText: _isHidden,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Pls Enter the Password ";
+                        }
+                        return null;
+                      },
+                      controller: passwordcontroller,
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: "Enter the Password",
+                        suffix: InkWell(
+                          onTap: _togglePasswordView,  /// This is Magical Function
+                          child: Icon(color: Colors.red,
+                            _isHidden ?         /// CHeck Show & Hide.
+                            Icons.visibility :
+                            Icons.visibility_off,
                           ),
                         ),
-                       ),
+                        prefixIcon: const Icon(Icons.lock),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black26),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black26),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                    ),
                   ),
                   const SizedBox(
-                    height: 200,
+                    height: 10,
                   ),
-                  Container(
-                    height: 50,
-                    width: 330,
-                    decoration: BoxDecoration(
-                        color: Colors.deepOrange,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: const Center(
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: Align(
+                      alignment: Alignment.centerRight,
                       child: Text(
-                        "LOGIN",
+                        "Forgot Password?",
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 27,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                            fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 150,
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      if(_formkey.currentState!.validate()){
+                        email=emailcontroller.text;
+                        name=namecontroller.text;
+                        password=passwordcontroller.text;
+                      }
+                      registration();
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 330,
+                      decoration: BoxDecoration(
+                          color: Colors.deepOrange,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: const Center(
+                        child: Text(
+                          "LOGIN",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 27,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ),
@@ -133,12 +282,17 @@ class login extends StatelessWidget {
                       const SizedBox(
                         width: 7,
                       ),
-                      const Text(
-                        "Sign Up",
-                        style: TextStyle(
-                            color: Colors.deepOrange,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>SingnPage()));
+                        },
+                        child: const Text(
+                          "Sign Up",
+                          style: TextStyle(
+                              color: Colors.deepOrange,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
                       )
                     ],
                   )
