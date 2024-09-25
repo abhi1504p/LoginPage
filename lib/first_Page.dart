@@ -19,6 +19,7 @@ class _loginState extends State<login> {
   TextEditingController passwordcontroller = new TextEditingController();
   final _formkey = GlobalKey<FormState>();
   bool _isHidden = true;
+  bool _loginpage=false;
   void _togglePasswordView() {
     setState(() {
       _isHidden = !_isHidden;

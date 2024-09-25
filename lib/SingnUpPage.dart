@@ -34,42 +34,116 @@ class _SingnPageState extends State<SingnPage> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
-            Colors.pink,
-            Colors.blue
+            Colors.pink.shade900,
+            Colors.blue.shade900
           ])
         ),
-        child: SingleChildScrollView(child:
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child:
           Column(
-            children: [ Padding(
-              padding: const EdgeInsets.only(right: 20, left: 20),
-              child: Form(
-                key: _formkey,
+            children: [
+              SizedBox(height: 120,),
+              Padding(
+                padding: const EdgeInsets.only(right: 20, left: 20),
                 child: TextFormField(
-                  keyboardType: TextInputType.emailAddress,
                   obscureText: false,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Pls Enter the Email ";
+                      return "Pls Enter the Name ";
                     }
                     return null;
                   },
-                  controller: emailcontroller,
+                  controller: namecontroller,
                   maxLines: 1,
                   decoration: InputDecoration(
-                    hintText: "Enter the Email",
-                    prefixIcon: const Icon(Icons.alternate_email_sharp),
+                    hintText: "Enter the Name",
+                    prefixIcon:
+                    const Icon(Icons.drive_file_rename_outline_sharp),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black26),
+                      borderSide: const BorderSide(color: Colors.black),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black26),
+                      borderSide: const BorderSide(color: Colors.black),
                       borderRadius: BorderRadius.circular(40),
                     ),
                   ),
                 ),
               ),
-            ),
+
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 20, left: 20),
+                child: Form(
+                  key: _formkey,
+                  child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    obscureText: false,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Pls Enter the Email ";
+                      }
+                      return null;
+                    },
+                    controller: emailcontroller,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      hintText: "Enter the Email",
+                      prefixIcon: const Icon(Icons.alternate_email_sharp),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: TextFormField(
+
+                  obscureText: _isHidden,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Pls Enter the Password ";
+                    }
+                    return null;
+                  },
+                  controller: passwordcontroller,
+                  maxLines: 1,
+                  decoration: InputDecoration(
+                    hintText: "Enter the Password",
+                    suffix: InkWell(
+                      onTap: _togglePasswordView,  /// This is Magical Function
+                      child: Icon(color: Colors.red,
+                        _isHidden ?         /// CHeck Show & Hide.
+                        Icons.visibility :
+                        Icons.visibility_off,
+                      ),
+                    ),
+                    prefixIcon: const Icon(Icons.lock),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ),
+                ),
+              ),
+
 
             ],
           ),),
